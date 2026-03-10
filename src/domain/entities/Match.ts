@@ -1,4 +1,5 @@
-import {Team} from "domain/entities/Team"
+import { Team } from "domain/entities/Team"
+import { Stadium } from "./Stadium";
 
 class Match {
     readonly id:number;

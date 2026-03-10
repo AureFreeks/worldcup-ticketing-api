@@ -1,4 +1,5 @@
-class Stadium {
+import {City} from "./City";
+export class Stadium {
     name:String;
     city:City;
     capacity:number;
