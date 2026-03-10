@@ -3,7 +3,7 @@
     "baseUrl": "./src",
     "paths": {
       "@domaine/*": [
-        "./src/domaine/*"
+        "./src/domain/*"
       ],
     },
     "strict": true,
