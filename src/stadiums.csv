@@ -1,0 +1,17 @@
+country,city,name,capacity
+USA,Atlanta,Mercedes-Benz Stadium,67382
+USA,Boston,Gillette Stadium,63815
+USA,Dallas,AT&T Stadium,70122
+USA,Houston,NRB Stadium,68311
+USA,Kansas City,Arrowhead Stadium,67513
+USA,Los Angeles,SoFi Stadium,70000
+USA,Miami,Hard Rock Stadium,65000
+USA,New York,MetLife Stadium,75000
+USA,Philadelphia,Lincoln Financial Field,70909
+USA,Seattle,Lumen Field,69000
+USA,San Francisco,Levi's Stadium,70909
+Mexico,Guadalajara,Estadio Akron,44330
+Mexico,Mexico City,Estadio Azteca,72766
+Mexico,Monterrey,Monterrey Estadio BBVA,50113
+Canada,Vancouver,Vancouver BC Place,54000
+Canada,Toronto,BMO Field,45000

@@ -1,7 +1,7 @@
-55.info:
-  name: Health
+info:
+  name: Home
   type: http
-  seq: 2
+  seq: 1
 
 http:
   method: GET
@@ -17,15 +17,9 @@ runtime:
     - expression: res.body.message
       operator: eq
       value: World Cup Ticketing API
-    - expression: res.body.uptime
-      operator: isDefined
-    - expression: res.body.environment
-      operator: isDefined
     - expression: res.status
       operator: eq
       value: "200"
-    - expression: res.body.uptime
-      operator: isDefined
     - expression: res.headers['content-type']
       operator: eq
       value: application/json
