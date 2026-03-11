@@ -10,4 +10,6 @@ bun run dev
 
 open http://localhost:3000
 
-Aurélien Descy, 
+Aurélien Descy (AureFreeks), 
+Lucie Ferrero (PrimisLucie),
+Antoine Renaux (EvaniaLuchiita)
