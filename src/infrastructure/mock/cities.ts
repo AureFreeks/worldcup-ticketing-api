@@ -1,5 +1,5 @@
-import { City } from "../domain/entities/City";
-import { mexico,usa,canada } from "./countries";
+import { City } from "../../domain/entities/City";
+import { mexico,usa,canada } from "./Countries";
 
 export const Guadalajara = {country:mexico, name:"Guadalajara"} as const;
 export const Miami = {country: usa, name:"Miami"} as const;

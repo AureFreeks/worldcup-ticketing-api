@@ -1,0 +1,40 @@
+opencollection: 1.0.0
+
+info:
+  name: World Cup Ticketing API
+config:
+  proxy:
+    inherit: true
+    config:
+      protocol: http
+      hostname: ""
+      port: ""
+      auth:
+        username: ""
+        password: ""
+      bypassProxy: ""
+
+docs:
+  content: |-
+    # World Cup Ticketing API
+
+    API REST pour la billetterie de la Coupe du Monde de football 2026.
+
+    --
+
+    !["Logotype Shrp"](https://sherpa.one/images/sherpa-logotype.png)
+
+    __Alexandre Leroux__  
+    _Enseignant / Formateur_  
+    _Développeur logiciel web & mobile_
+
+    Nancy (Grand Est, France)
+
+    <https://shrp.dev>
+  type: text/markdown
+bundled: false
+extensions:
+  bruno:
+    ignore:
+      - node_modules
+      - .git

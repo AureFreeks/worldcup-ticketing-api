@@ -1,7 +1,9 @@
 import { Team } from "domain/entities/Team"
 import { Stadium } from "./Stadium";
+import {MatchStatus} from "./MatchStatus";
+import {MatchStage} from "./MatchStage";
 
-class Match {
+export class Match {
     readonly id:number;
     readonly homeTeam:Team;
     readonly awayTeam:Team;
@@ -47,8 +49,8 @@ class Match {
 
      if (id<=0) {throw Error("id negatif")}
      if (homeTeam.name==awayTeam.name) {throw Error("nom de team identique")}
-     if (HomeScore<=0) {throw Error("score home negatif")}
-     if (this.awayScore<=0) {throw Error("score visiteur negatif")}
+     if (HomeScore<0) {throw Error("score home negatif")}
+     if (this.awayScore<0) {throw Error("score visiteur negatif")}
 
 
 

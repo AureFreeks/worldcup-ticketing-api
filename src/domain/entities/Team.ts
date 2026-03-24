@@ -8,6 +8,5 @@ export class Team {
     constructor(name:String,code:FifaCode) {
         this.code=code;
         this.name=name;
-
     }
 }

@@ -1,4 +1,4 @@
-enum MatchStage {
+export enum MatchStage {
     group,
     round_of_32,
     round_of_16,
