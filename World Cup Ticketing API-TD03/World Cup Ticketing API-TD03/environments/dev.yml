@@ -1,4 +1,5 @@
 name: dev
 variables:
-  - name: host
-    value: http://localhost:63480
+- name: host
+value: http://localhost:50704
+
