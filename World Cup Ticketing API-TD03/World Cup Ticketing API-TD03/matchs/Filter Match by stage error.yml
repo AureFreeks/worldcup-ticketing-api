@@ -1,0 +1,15 @@
+info:
+  name: Filter Match by stage error
+  type: http
+  seq: 7
+
+http:
+  method: GET
+  url: "{{host}}/matchs/stage/group"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

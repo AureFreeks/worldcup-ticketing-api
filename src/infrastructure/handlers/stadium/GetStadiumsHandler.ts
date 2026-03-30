@@ -8,6 +8,15 @@ export class GetStadiumsHandler {
         const cityName = c.req.query('city[name]') || "";
         const countryCode = c.req.query('country[code]') || "";
         const counstryName = c.req.query('country[name]') || "";
+        const name = c.req.query('name') || "";
+        if (name) {
+            const filteredStadiums = stadiums.filter(s => s.name.toLowerCase().includes(name.toLowerCase()));
+            return c.json({
+                success: true,
+                message: `Stadiums filtered by name: ${name}`,
+                data: filteredStadiums
+            });
+        }
         if (cityName) {
             const filteredStadiums = stadiums.filter(s => s.city.name.toLowerCase().includes(cityName.toLowerCase()));
             return c.json({
