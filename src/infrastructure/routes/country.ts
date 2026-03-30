@@ -2,6 +2,6 @@ import { Hono } from 'hono'
 import { GetCountriesHandler } from 'infrastructure/handlers/country/GetCountriesHandler'
 
 
-export const CountryRouter = new Hono()
+export const countryRouter = new Hono()
 
-CountryRouter.get('', (c) => new GetCountriesHandler().handle(c))
+countryRouter.get('', (c) => new GetCountriesHandler().handle(c))

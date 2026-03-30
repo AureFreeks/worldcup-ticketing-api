@@ -1,5 +1,5 @@
 import { Context } from "hono";
-import { counrties } from "infrastructure/mock/Countries";
+import { countries } from "infrastructure/mock/Countries";
 
 export class GetCountriesHandler {
     async handle(c: Context) {
@@ -8,7 +8,7 @@ export class GetCountriesHandler {
         const code = c.req.query('countries[name]')
 
         if (countryname) {
-              const filteredCountries = counrties.filter(t => t.name.toLowerCase().includes(countryname.toLowerCase()));
+              const filteredCountries = countries.filter(t => t.name.toLowerCase().includes(countryname.toLowerCase()));
                return c.json({
                 success: true,
                 message: `Contries filtered by name: ${countryname}`,
@@ -24,12 +24,12 @@ export class GetCountriesHandler {
         }
 
         if (sort === "name") {
-            counrties.sort((a, b) => a.name.valueOf().localeCompare(b.name.valueOf()));
-        } else if (sort === "-name") {counrties}
+            countries.sort((a, b) => a.name.valueOf().localeCompare(b.name.valueOf()));
+        } else if (sort === "-name") {countries}
         return c.json({
             success: true,
             message : 'All Cities',
-            data : counrties
+            data : countries
                 }, 200); 
 
     

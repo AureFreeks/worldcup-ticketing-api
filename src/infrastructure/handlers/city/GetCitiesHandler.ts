@@ -25,7 +25,7 @@ export class GetCitiesHandler {
         } else if (sort === "-name") {city}
         return c.json({
             success: true,
-            message : 'All Cities',
+            message : 'All cities',
             data : city
         }, 200);   
     }

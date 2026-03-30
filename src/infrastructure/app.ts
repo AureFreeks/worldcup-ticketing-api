@@ -5,6 +5,7 @@ import { teamsRouter } from './routes/teams'
 import { homeRouter } from './routes/home'
 import { stadiumsRouter } from './routes/stadiums'
 import { citiesRouter } from './routes/cities'
+import { countryRouter } from './routes/country'
 export const app = new Hono()
 
 app.route('/matchs', matchsRouter);
@@ -12,3 +13,4 @@ app.route('/teams', teamsRouter);
 app.route('/stadiums', stadiumsRouter);
 app.route('', homeRouter);
 app.route('/cities', citiesRouter);
+app.route('/countries',countryRouter)
