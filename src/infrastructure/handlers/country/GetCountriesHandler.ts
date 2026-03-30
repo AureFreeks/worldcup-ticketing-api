@@ -31,11 +31,5 @@ export class GetCountriesHandler {
             message : 'All countries',
             data : countries
                 }, 200); 
-
-    
-
-
-
-      
     }
 }
