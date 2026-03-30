@@ -1,5 +1,5 @@
 import { Context } from "hono";
-import {FifaCode} from "../../../domain/value-object/FifaCode";
+//import {FifaCode} from "../../../domain/value-object/FifaCode";
 import {teams} from "../../mock/teams";
 
 export class GetTeamsHandler {
