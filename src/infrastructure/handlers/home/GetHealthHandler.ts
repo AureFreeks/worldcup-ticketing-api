@@ -5,8 +5,7 @@ export class GetHealthHandler {
         return c.json({
             success: true,
             message: 'World Cup Ticketing API',
-            uptime: process.uptime(),
-            environment: "oui"
+            uptime: process.uptime()
             },200
         )
     }
