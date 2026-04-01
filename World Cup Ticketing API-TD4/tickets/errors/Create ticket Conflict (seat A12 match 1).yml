@@ -1,0 +1,46 @@
+info:
+  name: Create ticket Conflict (seat A12 match 1)
+  type: http
+  seq: 5
+
+http:
+  method: POST
+  url: "{{host}}/tickets"
+  body:
+    type: json
+    data: |-
+      {
+        "matchId": 1,
+        "seat": "A12",
+        "customer": {
+          "firstname": "John",
+          "lastname": "Doe",
+          "email": "john@doe.com"
+        }
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.body
+      operator: isJson
+    - expression: res.body.success
+      operator: isFalsy
+    - expression: res.body.error
+      operator: eq
+      value: Seat 'A12' is already taken for match 1
+    - expression: res.status
+      operator: eq
+      value: "409"
+    - expression: res.headers['content-type']
+      operator: eq
+      value: application/json
+    - expression: req.method
+      operator: eq
+      value: POST
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

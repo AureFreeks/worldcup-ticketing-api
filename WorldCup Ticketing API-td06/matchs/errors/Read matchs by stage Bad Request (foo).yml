@@ -1,0 +1,34 @@
+info:
+  name: Read matchs by stage Bad Request (foo)
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: "{{host}}/matchs/stages/foo"
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.body
+      operator: isJson
+    - expression: res.body.success
+      operator: isFalsy
+    - expression: res.body.error
+      operator: contains
+      value: 'Invalid stage: "foo"'
+    - expression: res.status
+      operator: eq
+      value: "400"
+    - expression: res.headers['content-type']
+      operator: eq
+      value: application/json
+    - expression: req.method
+      operator: eq
+      value: GET
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

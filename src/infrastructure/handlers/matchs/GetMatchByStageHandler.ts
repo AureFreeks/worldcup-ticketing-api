@@ -1,14 +1,13 @@
 import { Context } from "hono";
 import {match} from '../../mock/match'
 import { MatchStage } from "domain/entities/MatchStage";
+import { HTTPException } from 'hono/http-exception'
+
 export class GetMatchByStageHandler {
     async handle(c: Context) {
         const stage = c.req.param('stage');
         if (!stage || MatchStage[stage as keyof typeof MatchStage] === undefined) {
-            return c.json({
-                success: false,
-                error: `Invalid stage value: ${stage}`
-            }, 400);
+            throw new HTTPException(400, { message : `Invalid stage value: ${stage}`});
         }
         const stageEnum = MatchStage[stage as keyof typeof MatchStage];
         return c.json({

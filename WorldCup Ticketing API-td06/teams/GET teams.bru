@@ -1,0 +1,14 @@
+meta {
+  name: GET teams
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/teams
+}
+
+params:query {
+  ~name: Brazil
+  ~sort: name
+}

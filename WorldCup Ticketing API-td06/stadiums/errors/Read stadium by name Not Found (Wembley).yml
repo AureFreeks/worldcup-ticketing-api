@@ -1,0 +1,34 @@
+info:
+  name: Read stadium by name Not Found (Wembley)
+  type: http
+  seq: 3
+
+http:
+  method: GET
+  url: "{{host}}/stadiums/Wembley"
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.body
+      operator: isJson
+    - expression: res.body.success
+      operator: isFalsy
+    - expression: res.body.error
+      operator: eq
+      value: 'Stadium "Wembley" does not exist'
+    - expression: res.status
+      operator: eq
+      value: "404"
+    - expression: res.headers['content-type']
+      operator: eq
+      value: application/json
+    - expression: req.method
+      operator: eq
+      value: GET
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

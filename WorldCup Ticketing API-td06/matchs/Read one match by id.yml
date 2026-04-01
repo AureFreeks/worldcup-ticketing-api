@@ -1,0 +1,43 @@
+info:
+  name: Read one match by id
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{host}}/matchs/1"
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.body
+      operator: isJson
+    - expression: res.body.success
+      operator: isTruthy
+    - expression: res.body.message
+      operator: eq
+      value: Match 1
+    - expression: res.status
+      operator: eq
+      value: "200"
+    - expression: res.headers['content-type']
+      operator: eq
+      value: application/json
+    - expression: res.body.data
+      operator: isJson
+    - expression: req.method
+      operator: eq
+      value: GET
+    - expression: res.body.data.id
+      operator: eq
+      value: "1"
+    - expression: res.body.data.stadium.city
+      operator: isDefined
+    - expression: res.body.data.stadium.city.country
+      operator: isDefined
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

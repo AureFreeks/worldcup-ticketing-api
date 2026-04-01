@@ -1,5 +1,7 @@
 import { Context } from "hono";
 import { city } from "infrastructure/mock/cities";
+import { HTTPException } from 'hono/http-exception'
+
 
 export class GetCitiesHandler {
     async handle(c: Context) {
@@ -13,12 +15,8 @@ export class GetCitiesHandler {
                 data: filteredCities
             });
         }
-
         if (sort && sort !== "name" && sort !== "-name") {
-            return c.json({
-                success: false,
-                message: 'Invalid sort value:'
-            }, 400);
+            throw new HTTPException(400, { message : 'Invalid sort value:'});
         }
         if (sort === "name") {
             city.sort((a, b) => a.name.valueOf().localeCompare(b.name.valueOf()));

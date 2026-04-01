@@ -1,0 +1,7 @@
+info:
+  name: empty
+  type: folder
+  seq: 4
+
+request:
+  auth: inherit

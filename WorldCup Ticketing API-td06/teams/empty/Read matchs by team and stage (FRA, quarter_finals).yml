@@ -1,0 +1,38 @@
+info:
+  name: Read matchs by team and stage (FRA, quarter_finals)
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{host}}/teams/FRA/matchs/quarter_finals"
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.body
+      operator: isJson
+    - expression: res.body.success
+      operator: isTruthy
+    - expression: res.body.message
+      operator: eq
+      value: Matchs for team FRA at stage quarter_finals
+    - expression: res.status
+      operator: eq
+      value: "200"
+    - expression: res.headers['content-type']
+      operator: eq
+      value: application/json
+    - expression: res.body.data
+      operator: isArray
+    - expression: res.body.data
+      operator: isEmpty
+    - expression: req.method
+      operator: eq
+      value: GET
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

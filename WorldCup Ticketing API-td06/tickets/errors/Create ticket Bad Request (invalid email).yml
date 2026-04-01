@@ -1,0 +1,46 @@
+info:
+  name: Create ticket Bad Request (invalid email)
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{host}}/tickets"
+  body:
+    type: json
+    data: |-
+      {
+        "matchId": 1,
+        "seat": "A12",
+        "customer": {
+          "firstname": "John",
+          "lastname": "Doe",
+          "email": "not an email address"
+        }
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.body
+      operator: isJson
+    - expression: res.body.success
+      operator: isFalsy
+    - expression: res.status
+      operator: eq
+      value: "400"
+    - expression: res.headers['content-type']
+      operator: eq
+      value: application/json
+    - expression: req.method
+      operator: eq
+      value: POST
+    - expression: res.body.error
+      operator: eq
+      value: Can't create ticket (wrong or missing values)
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

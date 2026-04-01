@@ -1,5 +1,6 @@
 import { Context } from "hono";
 import { countries } from "infrastructure/mock/Countries";
+import { HTTPException } from 'hono/http-exception'
 
 export class GetCountriesHandler {
     async handle(c: Context) {
@@ -17,10 +18,7 @@ export class GetCountriesHandler {
         }
 
         if (sort && sort !== "name" && sort !== "-name") {
-            return c.json({
-                success: false,
-                message: 'Invalid sort value:'
-            }, 400);
+            throw new HTTPException(400, { message : 'Invalid sort value:'});
         }
 
         if (sort === "name") {

@@ -1,0 +1,14 @@
+meta {
+  name: GET cities
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/cities
+}
+
+params:query {
+  ~name: Miami
+  ~country: Mexico
+}

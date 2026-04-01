@@ -1,0 +1,17 @@
+meta {
+  name: GET matchs
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/matchs
+}
+
+params:query {
+  ~country: Mexico
+  ~stage: group
+  ~status: scheduled
+  ~team[code]: BRA
+  ~date: 2026-06-15
+}

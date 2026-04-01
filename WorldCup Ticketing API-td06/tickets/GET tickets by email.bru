@@ -1,0 +1,13 @@
+meta {
+  name: GET tickets by email
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/tickets
+}
+
+params:query {
+  email: fan@example.com
+}

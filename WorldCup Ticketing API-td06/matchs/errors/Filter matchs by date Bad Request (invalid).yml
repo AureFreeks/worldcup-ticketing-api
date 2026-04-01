@@ -1,0 +1,38 @@
+info:
+  name: Filter matchs by date Bad Request (invalid)
+  type: http
+  seq: 5
+
+http:
+  method: GET
+  url: "{{host}}/matchs?date=15-06-2026"
+  params:
+    - name: date
+      value: 15-06-2026
+      type: query
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.body
+      operator: isJson
+    - expression: res.body.success
+      operator: isFalsy
+    - expression: res.body.error
+      operator: contains
+      value: "Invalid date format"
+    - expression: res.status
+      operator: eq
+      value: "400"
+    - expression: res.headers['content-type']
+      operator: eq
+      value: application/json
+    - expression: req.method
+      operator: eq
+      value: GET
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

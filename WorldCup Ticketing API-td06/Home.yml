@@ -1,0 +1,34 @@
+info:
+  name: Home
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{host}}"
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.body
+      operator: isJson
+    - expression: res.body.success
+      operator: isTruthy
+    - expression: res.body.message
+      operator: eq
+      value: World Cup Ticketing API
+    - expression: res.status
+      operator: eq
+      value: "200"
+    - expression: res.headers['content-type']
+      operator: eq
+      value: application/json
+    - expression: req.method
+      operator: eq
+      value: GET
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,21 @@
+meta {
+  name: POST order ticket
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/matchs/8/tickets
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "email": "fan@example.com",
+    "category": "category1",
+    "quantity": 2
+  }
+}

@@ -1,0 +1,42 @@
+info:
+  name: Filter cities by name (Washington)
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: "{{host}}/cities?name=washington"
+  params:
+    - name: name
+      value: washington
+      type: query
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.body
+      operator: isJson
+    - expression: res.body.success
+      operator: isTruthy
+    - expression: res.body.message
+      operator: contains
+      value: "Cities filtered by name:"
+    - expression: res.status
+      operator: eq
+      value: "200"
+    - expression: res.headers['content-type']
+      operator: eq
+      value: application/json
+    - expression: res.body.data
+      operator: isArray
+    - expression: req.method
+      operator: eq
+      value: GET
+    - expression: res.body.data
+      operator: isEmpty
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

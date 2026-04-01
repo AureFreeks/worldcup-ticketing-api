@@ -1,0 +1,46 @@
+info:
+  name: Read matchs at stadium (MetLife Stadium)
+  type: http
+  seq: 11
+
+http:
+  method: GET
+  url: "{{host}}/stadiums/MetLife Stadium/matchs"
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        res.body.data.forEach((match) => {
+          expect(match.stadium.name).to.equal("MetLife Stadium");
+        });
+  assertions:
+    - expression: res.body
+      operator: isJson
+    - expression: res.body.success
+      operator: isTruthy
+    - expression: res.body.message
+      operator: eq
+      value: Matchs at MetLife Stadium
+    - expression: res.status
+      operator: eq
+      value: "200"
+    - expression: res.headers['content-type']
+      operator: eq
+      value: application/json
+    - expression: res.body.data
+      operator: isArray
+    - expression: req.method
+      operator: eq
+      value: GET
+    - expression: res.body.data[0].homeTeam
+      operator: isDefined
+    - expression: res.body.data[0].awayTeam
+      operator: isDefined
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

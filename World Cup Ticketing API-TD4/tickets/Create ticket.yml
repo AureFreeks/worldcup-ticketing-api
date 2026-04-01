@@ -1,0 +1,60 @@
+info:
+  name: Create ticket
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{host}}/tickets"
+  body:
+    type: json
+    data: |-
+      {
+        "matchId": 1,
+        "seat": "A12",
+        "customer": {
+          "firstname": "John",
+          "lastname": "Doe",
+          "email": "john@doe.com"
+        }
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.body
+      operator: isJson
+    - expression: res.body.success
+      operator: isTruthy
+    - expression: res.body.message
+      operator: eq
+      value: Ticket created
+    - expression: res.status
+      operator: eq
+      value: "201"
+    - expression: res.headers['content-type']
+      operator: eq
+      value: application/json
+    - expression: req.method
+      operator: eq
+      value: POST
+    - expression: res.body.data.id
+      operator: eq
+      value: "1"
+    - expression: res.body.data.seat
+      operator: eq
+      value: A12
+    - expression: res.body.data.customer.email
+      operator: eq
+      value: john@doe.com
+    - expression: res.body.data.match
+      operator: isDefined
+    - expression: res.body.data.match.id
+      operator: eq
+      value: "1"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -7,4 +7,3 @@ export const homeRouter = new Hono();
 homeRouter.get('', (c) => new GetHomeHandler().handle(c))
 homeRouter.get('health', (c) => new GetHealthHandler().handle(c))
 
-

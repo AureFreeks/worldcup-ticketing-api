@@ -15,7 +15,7 @@ export class GetStadiumsHandler {
                 success: true,
                 message: `Stadiums filtered by name: ${name}`,
                 data: filteredStadiums
-            });
+            }, 200);
         }
         if (cityName) {
             const filteredStadiums = stadiums.filter(s => s.city.name.toLowerCase().includes(cityName.toLowerCase()));
@@ -24,7 +24,7 @@ export class GetStadiumsHandler {
                 message: `Stadiums filtered by city[name]:`,
                 cityName : cityName,
                 data: filteredStadiums
-            });
+            },200);
         }
         if (countryCode) {
             const filteredStadiums = stadiums.filter(s => s.city.country.code.toLowerCase().includes(countryCode.toLowerCase()));
@@ -32,7 +32,7 @@ export class GetStadiumsHandler {
                 success: true,
                 message: `Stadiums filtered by country[code]:`,
                 data: filteredStadiums
-            });
+            },200);
         }
         if (counstryName) {
             const filteredStadiums = stadiums.filter(s => s.city.country.name.toLowerCase().includes(counstryName.toLowerCase()));
@@ -40,7 +40,7 @@ export class GetStadiumsHandler {
                 success: true,
                 message: `Stadiums filtered by country[name]:`,
                 data: filteredStadiums
-            });
+            },200);
         }
         return c.json({
             success: true,
