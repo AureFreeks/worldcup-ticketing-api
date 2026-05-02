@@ -2,11 +2,21 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
-      "@domaine/*": [
-        "./src/infrastucture/",
-        "./src/application/",
-        "./src/domain/*"
+      "@domain/*": [
+        "domain/*"
       ],
+      "@infrastructure/*": [
+        "infrastructure/*"
+      ],
+      "@handlers/*": [
+        "infrastructure/handlers/*"
+      ],
+      "@routes/*": [
+        "infrastructure/routes/*"
+      ],
+      "@mock/*": [
+        "infrastructure/mock/*"
+      ]
     },
     "strict": true,
     "jsx": "react-jsx",

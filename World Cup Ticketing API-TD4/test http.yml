@@ -8,6 +8,11 @@ http:
   url: "{{host}}/test-http"
   auth: inherit
 
+runtime:
+  variables:
+    - name: host
+      value: http://localhost:61856
+
 settings:
   encodeUrl: true
   timeout: 0

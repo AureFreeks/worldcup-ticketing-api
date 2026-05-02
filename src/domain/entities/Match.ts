@@ -1,7 +1,7 @@
-import { Team } from "domain/entities/Team"
-import { Stadium } from "./Stadium";
-import {MatchStatus} from "./MatchStatus";
-import {MatchStage} from "./MatchStage";
+import { Team } from "@domain/entities/Team"
+import { Stadium } from "@domain/entities/Stadium";
+import {MatchStatus} from "@domain/entities/MatchStatus";
+import {MatchStage} from "@domain/entities/MatchStage";
 
 export class Match {
     readonly id:number;
@@ -41,7 +41,7 @@ export class Match {
     this.homeTeam=homeTeam;
     this.awayTeam=awayTeam;
     this.homeScore=HomeScore;
-    this.awayScore=this.awayScore;
+    this.awayScore=AwayScore;
     this.stadium=stadium;
     this.status=status;
     this.stage=stage;
@@ -50,13 +50,7 @@ export class Match {
      if (id<=0) {throw Error("id negatif")}
      if (homeTeam.name==awayTeam.name) {throw Error("nom de team identique")}
      if (HomeScore<0) {throw Error("score home negatif")}
-     if (this.awayScore<0) {throw Error("score visiteur negatif")}
-
-
-
-
-
-
+     if (AwayScore<0) {throw Error("score visiteur negatif")}
    }
 
 

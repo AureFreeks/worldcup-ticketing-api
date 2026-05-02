@@ -1,12 +1,11 @@
 import { Context } from "hono";
-import { countries } from "infrastructure/mock/Countries";
+import { countries } from "@mock/Countries";
 import { HTTPException } from 'hono/http-exception'
 
 export class GetCountriesHandler {
     async handle(c: Context) {
         const sort = c.req.query('sort') || "name";
         const countryname = c.req.query('countries[name]') || "";
-        const code = c.req.query('countries[name]')
 
         if (countryname) {
               const filteredCountries = countries.filter(t => t.name.toLowerCase().includes(countryname.toLowerCase()));

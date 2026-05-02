@@ -1,5 +1,5 @@
 import { Context } from "hono";
-import { countries } from "infrastructure/mock/Countries";
+import { countries } from "@mock/Countries";
 
 export class GetCountriesByCodeHandler {
     async handle(c: Context) {

@@ -1,7 +1,6 @@
 import { Context } from "hono";
-import {stadiums} from "../../mock/stadiums";
-import { city } from "infrastructure/mock/cities";
-import { $ } from "bun";
+import {stadiums} from "@mock/stadiums";
+
 
 export class GetStadiumsHandler {
     async handle(c: Context) {

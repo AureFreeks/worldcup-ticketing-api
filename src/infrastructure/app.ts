@@ -19,12 +19,12 @@ app.onError((err : any, c : any) => {
 })
 
 
-import { matchsRouter } from './routes/matchs'
-import { teamsRouter } from './routes/teams'
-import { homeRouter } from './routes/home'
-import { stadiumsRouter } from './routes/stadiums'
-import { citiesRouter } from './routes/cities'
-import { countryRouter } from './routes/country'
+import { matchsRouter } from '@routes/matchs'
+import { teamsRouter } from '@routes/teams'
+import { homeRouter } from '@routes/home'
+import { stadiumsRouter } from '@routes/stadiums'
+import { citiesRouter } from '@routes/cities'
+import { countryRouter } from '@routes/country'
 
 
 app.route('/matchs', matchsRouter);

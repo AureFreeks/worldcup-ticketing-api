@@ -1,5 +1,5 @@
-import {Team} from "../../domain/entities/Team";
-import { FifaCode } from "domain/value-object/FifaCode";
+import {Team} from "@domain/entities/Team";
+import { FifaCode } from "@domain/value-object/FifaCode";
 
 export const canada_equipe = {name:"Canada", code:new FifaCode("CAN")} as const;
 export const usa_equipe = {name:"USA", code:new FifaCode("USA")} as const;

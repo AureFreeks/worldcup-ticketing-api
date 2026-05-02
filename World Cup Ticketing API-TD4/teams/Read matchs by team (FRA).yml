@@ -5,7 +5,7 @@ info:
 
 http:
   method: GET
-  url: "{{host}}/teams/FRA/matchs"
+  url: "{{host}}/teams/CAN/matchs"
   auth: inherit
 
 runtime:
@@ -14,7 +14,7 @@ runtime:
       code: |-
         res.body.data.forEach((match) => {
           const codes = [match.homeTeam.code.value, match.awayTeam.code.value];
-          expect(codes).to.include("FRA");
+          expect(codes).to.include("CAN");
         });
   assertions:
     - expression: res.body
@@ -23,7 +23,7 @@ runtime:
       operator: isTruthy
     - expression: res.body.message
       operator: eq
-      value: Matchs for team FRA
+      value: Matchs for team CAN
     - expression: res.status
       operator: eq
       value: "200"

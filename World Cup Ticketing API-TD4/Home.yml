@@ -9,6 +9,9 @@ http:
   auth: inherit
 
 runtime:
+  variables:
+    - name: host
+      value: http://localhost:61856
   assertions:
     - expression: res.body
       operator: isJson

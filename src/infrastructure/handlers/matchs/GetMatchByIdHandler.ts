@@ -1,5 +1,5 @@
 import { Context } from "hono";
-import {match} from '../../mock/match'
+import {match} from '@mock/match'
 import { HTTPException } from 'hono/http-exception'
 
 export class GetMatchByIdHandler {

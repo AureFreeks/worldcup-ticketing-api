@@ -5,7 +5,7 @@ info:
 
 http:
   method: GET
-  url: "{{host}}/teams/FRA/matchs/group"
+  url: "{{host}}/teams/CAN/matchs/group"
   auth: inherit
 
 runtime:
@@ -14,7 +14,7 @@ runtime:
       code: |-
         res.body.data.forEach((match) => {
           const codes = [match.homeTeam.code.value, match.awayTeam.code.value];
-          expect(codes).to.include("FRA");
+          expect(codes).to.include("CAN");
           expect(match.stage).to.equal("group");
         });
   assertions:
@@ -24,7 +24,7 @@ runtime:
       operator: isTruthy
     - expression: res.body.message
       operator: eq
-      value: Matchs for team FRA at stage group
+      value: Matchs for team CAN at stage group
     - expression: res.status
       operator: eq
       value: "200"

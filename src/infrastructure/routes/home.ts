@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
-import { GetHealthHandler } from '../handlers/home/GetHealthHandler';
-import { GetHomeHandler } from '../handlers/home/GetHomeHandler';
+import { GetHealthHandler } from '@handlers/home/GetHealthHandler';
+import { GetHomeHandler } from '@handlers/home/GetHomeHandler';
 
 export const homeRouter = new Hono();
 

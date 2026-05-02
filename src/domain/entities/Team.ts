@@ -1,4 +1,4 @@
-import { FifaCode } from "../value-object/FifaCode";
+import { FifaCode } from "@domain/value-object/FifaCode";
 
 export class Team {
     

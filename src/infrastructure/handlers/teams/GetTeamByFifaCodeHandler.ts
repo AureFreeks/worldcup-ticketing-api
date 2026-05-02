@@ -1,14 +1,13 @@
 import { Context } from "hono";
-import {FifaCode} from "../../../domain/value-object/FifaCode";
-import {teams} from "../../mock/teams";
+import { FifaCode } from "@domain/value-object/FifaCode";
+import {teams} from "@mock/teams";
 import { HTTPException } from 'hono/http-exception'
 
 export class GetTeamByFifaCodeHandler {
     async handle(c: Context) {
         const codeFifa = c.req.param('fifaCode');
-        let teamToFind: FifaCode;
         try {
-            const teamToFind = new FifaCode(codeFifa);
+            new FifaCode(codeFifa);
         } catch (error) {
             throw new HTTPException(400, { message : 'Invalid FIFA code', error : `Invalid FIFA code: "${codeFifa}"`});
         }

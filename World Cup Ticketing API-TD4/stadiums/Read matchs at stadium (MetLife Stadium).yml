@@ -5,7 +5,7 @@ info:
 
 http:
   method: GET
-  url: "{{host}}/stadiums/MetLife Stadium/matchs"
+  url: "{{host}}/stadiums/BMO Field/matchs"
   auth: inherit
 
 runtime:
@@ -13,7 +13,7 @@ runtime:
     - type: tests
       code: |-
         res.body.data.forEach((match) => {
-          expect(match.stadium.name).to.equal("MetLife Stadium");
+          expect(match.stadium.name).to.equal("BMO Field");
         });
   assertions:
     - expression: res.body
@@ -22,7 +22,7 @@ runtime:
       operator: isTruthy
     - expression: res.body.message
       operator: eq
-      value: Matchs at MetLife Stadium
+      value: Matchs at BMO Field Stadium
     - expression: res.status
       operator: eq
       value: "200"

@@ -1,6 +1,6 @@
 import { Context } from "hono";
 //import {FifaCode} from "../../../domain/value-object/FifaCode";
-import {teams} from "../../mock/teams";
+import {teams} from "@mock/teams";
 
 export class GetTeamsHandler {
     async handle(c: Context) {

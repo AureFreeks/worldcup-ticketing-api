@@ -5,7 +5,7 @@ info:
 
 http:
   method: GET
-  url: "{{host}}/cities/Miami/matchs"
+  url: "{{host}}/cities/Toronto/matchs"
   auth: inherit
 
 runtime:
@@ -13,7 +13,7 @@ runtime:
     - type: tests
       code: |-
         res.body.data.forEach((match) => {
-          expect(match.stadium.city.name).to.equal("Miami");
+          expect(match.stadium.city.name).to.equal("Toronto");
         });
   assertions:
     - expression: res.body
@@ -22,7 +22,7 @@ runtime:
       operator: isTruthy
     - expression: res.body.message
       operator: eq
-      value: Matchs in Miami
+      value: Matchs in Toronto
     - expression: res.status
       operator: eq
       value: "200"

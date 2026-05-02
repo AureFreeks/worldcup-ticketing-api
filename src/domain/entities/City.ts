@@ -1,4 +1,4 @@
-import {Country} from "./Country";
+import {Country} from "@domain/entities/Country";
 export class City {
     
     constructor(public readonly country:Country,public readonly name:"Atlanta" | "Boston" | "Dallas" | "Houston" | "Kansas City" | "Los Angeles" | "Miami" | "New York" | "Philadelphia" | "Seattle" | "San Francisco" | "Guadalajara" | "Mexico City" | "Monterrey" | "Toronto" | "Vancouver" ) {
@@ -13,17 +13,10 @@ export class City {
             Mexico:["Guadalajara", "Mexico City" , "Monterrey"],
             Canada:[ "Seattle" , "San Francisco"]};
 
-             if (!paireValide[country.name].includes(name)) {
-      throw new Error("ville et pays ne corresponde pas");
-         }
-            
-       
-
-
-
-     }
-
-   
+            if (!paireValide[country.name].includes(name)) {
+                throw new Error("ville et pays ne corresponde pas");
+        }
+    }
 }
- 
+
 

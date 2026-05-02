@@ -1,5 +1,5 @@
-import { Stadium } from "domain/entities/Stadium";
-import {Miami, Toronto, Guadalajara } from "./cities";
+import { Stadium } from "@domain/entities/Stadium";
+import {Miami, Toronto, Guadalajara } from "@mock/cities";
 
 export const BMO = {name:"BMO Field",city:Toronto,capacity:45000}
 export const SoFi={name:"SoFi Stadium",city:Miami,capacity:70000}
