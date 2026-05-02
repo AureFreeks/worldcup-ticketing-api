@@ -10,7 +10,7 @@ export class GetCityByNameHandler {
 
         const cityFound = city.find(c => c.name === name);
         if (!cityFound) {
-            throw new HTTPException(404, "City not found");
+            throw new HTTPException(404, { message: "City not found" });
         }
         return c.json({
             success: true,

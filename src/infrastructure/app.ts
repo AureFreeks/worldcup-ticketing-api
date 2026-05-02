@@ -9,8 +9,8 @@ app.onError((err : any, c : any) => {
         return c.json(
             {
                 success: false,
-                error : err.error,
-                message : err.message
+                cause : err.cause,
+                error : err.message,
             },err.status
         )
     }
@@ -25,7 +25,7 @@ import { homeRouter } from '@routes/home'
 import { stadiumsRouter } from '@routes/stadiums'
 import { citiesRouter } from '@routes/cities'
 import { countryRouter } from '@routes/country'
-
+import { ticketsRouter } from '@routes/tickets'
 
 app.route('/matchs', matchsRouter);
 app.route('/teams', teamsRouter);
@@ -33,6 +33,6 @@ app.route('/stadiums', stadiumsRouter);
 app.route('', homeRouter);
 app.route('/cities', citiesRouter);
 app.route('/countries',countryRouter)
-
+app.route('/tickets', ticketsRouter)
 
 

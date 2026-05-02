@@ -17,7 +17,7 @@ export class GetMatchsHandler {
         const date = c.req.query('date') || "";
         if (date){
             if (date.match(/^\d{4}-\d{2}-\d{2}$/) === null) {
-                throw new HTTPException(400, "Invalid date format. Expected format: YYYY-MM-DD");
+                throw new HTTPException(400, { message: "Invalid date format. Expected format: YYYY-MM-DD" });
             }
             const matchFiltre = match.filter(m => m.date.toISOString().split('T')[0] === date);
             return c.json({
