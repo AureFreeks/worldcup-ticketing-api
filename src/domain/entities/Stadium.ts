@@ -1,4 +1,5 @@
 import {City} from "@domain/entities/City";
+
 export class Stadium {
     name:String;
     city:City;

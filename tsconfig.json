@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "experimentalDecorators": true, //typeorm
+    "emitDecoratorMetadata": true, //typeorm
     "baseUrl": "./src",
     "paths": {
       "@domain/*": [
@@ -16,12 +18,12 @@
       ],
       "@mock/*": [
         "infrastructure/mock/*"
+      ],"@database/*": [
+        "infrastructure/database/*"
       ]
     },
     "strict": true,
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx"
- 
   }
-
 }
