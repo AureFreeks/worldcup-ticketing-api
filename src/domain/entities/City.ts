@@ -27,6 +27,7 @@ export class City {
             this.name=name;
         }
     }
+    
 }
 
 

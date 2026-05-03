@@ -21,7 +21,7 @@
       ],"@database/*": [
         "infrastructure/database/*"
       ],"@services/*": [
-        "infrastructure/services/*"
+        "application/services/*"
       ]
     },
     "strict": true,

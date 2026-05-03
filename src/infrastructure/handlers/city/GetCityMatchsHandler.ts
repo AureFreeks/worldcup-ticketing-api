@@ -1,52 +1,41 @@
 import { Context } from "hono";
 import { HTTPException } from 'hono/http-exception'
 
-import { match } from "@mock/match";
-import { city } from "@mock/cities";
+//import { match } from "@mock/match";
+//import { city } from "@mock/cities";
 
+import { AppDataSource } from "@infrastructure/database/AppDataSource";
+import { Not, Repository } from "typeorm";
+import { CityService } from "@services/CityService";
 import { City } from "@domain/entities/City";
 import { Match } from "@domain/entities/Match";
-import { AppDataSource } from "@infrastructure/database/AppDataSource";
+const cityRepository : Repository<City> = AppDataSource.getRepository(City);
+const matchRepository : Repository<Match> = AppDataSource.getRepository(Match);
+const cityService = new CityService(cityRepository, matchRepository);
+
 import { ILike } from "typeorm";
+import { NotFoundError } from "@domain/errors/NotFoundError";
 
 export class GetCityMatchsHandler {
     async handle(c: Context) {
         const name = c.req.param('name');
         //const nameLower = name.toLowerCase();
         //if (!(city.map(c => c.name.toLowerCase()).includes(nameLower))) {
-        const cityRepository = AppDataSource.getRepository(City);
-        const cityFound = await cityRepository.findOne({
-            where: {
-                name: ILike(`%${name}%`)
+        try {
+            await cityService.findCityByName(name);
+            //const cityMatchs = match.filter(m => m.stadium.city.name.toLowerCase() === name.toLowerCase());
+            const cityMatchs = await cityService.findMatchByCityName(name);
+            return c.json({
+                success: true,
+                message: `Matchs in ${name}`,
+                data: cityMatchs
+            }, 200);
+        }catch (error) {
+            if (error instanceof NotFoundError) {
+                throw new HTTPException(404, { message: error.message });
             }
-        });
-        if (!cityFound) {
-            throw new HTTPException(404, { message: `City "${name}" does not exist`});
+            throw error;
         }
-        
-        //const cityMatchs = match.filter(m => m.stadium.city.name.toLowerCase() === name.toLowerCase());
-        
-        const matchRepository = AppDataSource.getRepository(Match);
-        const cityMatchs = await matchRepository.find({
-            where: {
-                stadium: {
-                    city: {
-                        name: ILike(`%${name}%`)
-                    }
-                }
-            },relations: {
-                    stadium: {
-                        city: true
-                    },
-                    homeTeam: true,
-                    awayTeam: true
-            }
-        });
-        return c.json({
-            success: true,
-            message: `Matchs in ${name}`,
-            data: cityMatchs
-        }, 200);
     }
 }
 
