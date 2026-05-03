@@ -94,7 +94,7 @@ async function seed() : Promise<void>{
         console.log("Matches seeded successfully");
         for (const t of tickets){
             await ticketRepo.save(
-                ticketRepo.create({id: t.id, match: t.match, seat: t.seat, firstname: t.firstname, lastname: t.lastname, email: t.email})
+                ticketRepo.create({match: t.match, seat: t.seat, firstname: t.firstname, lastname: t.lastname, email: t.email})
             );
         }
         await AppDataSource.destroy();

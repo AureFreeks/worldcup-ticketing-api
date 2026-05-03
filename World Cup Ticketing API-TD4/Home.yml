@@ -11,7 +11,7 @@ http:
 runtime:
   variables:
     - name: host
-      value: http://localhost:61856
+      value: http://localhost:3000
   assertions:
     - expression: res.body
       operator: isJson

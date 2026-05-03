@@ -9,11 +9,15 @@ export class Team {
     readonly code:string;
 
     constructor(name?:String,code?:FifaCode) {
-        if (code) {
+        if (name && code) {
+            this.name=name;
             this.code=code.getValue();
         }
-        if (name) {
-            this.name=name;
-        }
+    }
+    toJSON() {
+        return {
+            name: this.name,
+            code: { value: this.code } 
+        };
     }
 }

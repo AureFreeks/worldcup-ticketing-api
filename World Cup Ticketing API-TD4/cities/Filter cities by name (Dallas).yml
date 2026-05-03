@@ -5,10 +5,10 @@ info:
 
 http:
   method: GET
-  url: "{{host}}/cities?name=dallas"
+  url: "{{host}}/cities?name=Toronto"
   params:
     - name: name
-      value: dallas
+      value: Toronto
       type: query
   auth: inherit
 
@@ -20,7 +20,7 @@ runtime:
       operator: isTruthy
     - expression: res.body.message
       operator: eq
-      value: "Cities filtered by name: dallas"
+      value: "Cities filtered by name: Toronto"
     - expression: res.status
       operator: eq
       value: "200"

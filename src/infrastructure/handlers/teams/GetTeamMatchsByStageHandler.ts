@@ -4,6 +4,9 @@ import {teams} from "@mock/teams";
 import { MatchStage } from "@domain/entities/MatchStage";
 import { HTTPException } from 'hono/http-exception'
 import { match } from "@infrastructure/mock/match";
+import { AppDataSource } from "@infrastructure/database/AppDataSource";
+import { Team } from "@domain/entities/Team";
+import { Match } from "@domain/entities/Match";
 
 export class GetTeamMatchsByStageHandler {
     async handle(c: Context) {
@@ -21,17 +24,31 @@ export class GetTeamMatchsByStageHandler {
             throw new HTTPException(400, { message: 'Missing stage query parameter'});
         }
         if (!(stageParam in MatchStage)) {
-            throw new HTTPException(400, { message: 'Invalid stage query parameter' });
+            throw new HTTPException(400, { message: `Invalid stage: "${stageParam}"` });
         }
         const stage = MatchStage[stageParam as keyof typeof MatchStage];
-        const team = teams.find(team => team.code.value === fifaCode);
+        const teamRepository = AppDataSource.getRepository(Team);
+        const team = await teamRepository.find({ where: { code: fifaCode } });
+        //const team = teams.find(team => team.code === fifaCode);
         if (!team) {
             throw new HTTPException(404, { message: `Team ${fifaCode} not found` });
         }
-        const matches = match.filter(m => (m.homeTeam.code.value === fifaCode || m.awayTeam.code.value === fifaCode) && m.stage === stage);
+        const matchRepository = AppDataSource.getRepository(Match);
+        const matches = await matchRepository.find({
+            where: [
+                { homeTeam: { code: fifaCode }, stage: stage }, 
+                { awayTeam: { code: fifaCode }, stage: stage }  
+            ],
+            relations: {
+                homeTeam: true,
+                awayTeam: true,
+                stadium: true
+            }
+        });
+        //const matches = match.filter(m => (m.homeTeam.code === fifaCode || m.awayTeam.code === fifaCode) && m.stage === stage);
         return c.json({ 
             success: true,
-            message : `Matchs for team ${fifaCode}  at stage ${stageParam}`,
+            message : `Matchs for team ${fifaCode} at stage ${stageParam}`,
             data : matches
             }, 200);
     }

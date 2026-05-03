@@ -16,7 +16,7 @@ runtime:
       operator: isFalsy
     - expression: res.body.error
       operator: eq
-      value: 'Stadium "Wembley" does not exist'
+      value: Stadium "Wembley" does not exist
     - expression: res.status
       operator: eq
       value: "404"

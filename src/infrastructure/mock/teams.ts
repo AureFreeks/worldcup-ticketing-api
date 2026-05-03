@@ -1,12 +1,15 @@
-import {Team} from "@domain/entities/Team";
+import { Team } from "@domain/entities/Team";
 import { FifaCode } from "@domain/value-object/FifaCode";
 
-export const canada_equipe = {name:"Canada", code:new FifaCode("CAN")} as const;
-export const usa_equipe = {name:"USA", code:new FifaCode("USA")} as const;
-export const mexico_equipe = {name:"Mexico", code:new FifaCode("MEX")} as const;
-export const japon_equipe = {name:"Japon", code:new FifaCode("JPN")} as const;
-export const argentine_equipe = {name:"Argentine", code:new FifaCode("ARG")} as const;
-export const ghana_equipe = {name:"Ghana", code:new FifaCode("GHA")} as const;
-export const france_equipe = {name:"France", code:new FifaCode("FRA")} as const;
+export const canada_equipe = new Team("Canada", new FifaCode("CAN"));
+export const usa_equipe = new Team("USA", new FifaCode("USA"));
+export const mexico_equipe = new Team("Mexico", new FifaCode("MEX"));
+export const japon_equipe = new Team("Japon", new FifaCode("JPN"));
+export const argentine_equipe = new Team("Argentine", new FifaCode("ARG"));
+export const ghana_equipe = new Team("Ghana", new FifaCode("GHA"));
+export const france_equipe = new Team("France", new FifaCode("FRA"));
 
-export const teams : Array<Team> = [canada_equipe, usa_equipe, mexico_equipe, japon_equipe, argentine_equipe, ghana_equipe, france_equipe];
+export const teams: Array<Team> = [
+    canada_equipe, usa_equipe, mexico_equipe,
+    japon_equipe, argentine_equipe, ghana_equipe, france_equipe
+];

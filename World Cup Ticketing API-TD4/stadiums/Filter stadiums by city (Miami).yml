@@ -1,14 +1,14 @@
 info:
-  name: Filter stadiums by city (Dallas)
+  name: Filter stadiums by city (Miami)
   type: http
-  seq: 4
+  seq: 2
 
 http:
   method: GET
-  url: "{{host}}/stadiums?city[name]=dallas"
+  url: "{{host}}/stadiums?city[name]=Miami"
   params:
     - name: city[name]
-      value: dallas
+      value: Miami
       type: query
   auth: inherit
 
