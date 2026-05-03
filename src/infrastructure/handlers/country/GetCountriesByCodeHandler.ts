@@ -9,6 +9,7 @@ import { Not, Repository } from "typeorm";
 import { City } from "@domain/entities/City";
 import { CountryService } from "@services/CountryService";
 import { NotFoundError } from "@domain/errors/NotFoundError";
+import { ValidationError } from "@domain/errors/ValidationError";
 
 const cityRepository : Repository<City> = AppDataSource.getRepository(City);
 const countryRepository : Repository<Country> = AppDataSource.getRepository(Country);
@@ -31,7 +32,7 @@ export class GetCountriesByCodeHandler {
             if (error instanceof ValidationError) {
                 throw new HTTPException(400, { message: error.message });
             }
-            throw error;
+            throw new HTTPException(500, { message: 'An unexpected error occurred' });
         }
     }
 }

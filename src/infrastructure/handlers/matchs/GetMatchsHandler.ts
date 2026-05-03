@@ -27,7 +27,7 @@ export class GetMatchsHandler {
                 if (error instanceof NotFoundError) {
                     throw new HTTPException(404, { message: error.message });
                 }
-                throw error;
+                throw new HTTPException(500, { message: 'An unexpected error occurred' });
             }
         }
         const date = c.req.query('date') || "";
@@ -47,7 +47,7 @@ export class GetMatchsHandler {
                 if (error instanceof ValidationError) {
                     throw new HTTPException(400, { message: error.message });
                 }
-                throw error;
+                throw new HTTPException(500, { message: 'An unexpected error occurred' });
             }
         }
         try {
@@ -61,7 +61,7 @@ export class GetMatchsHandler {
             if (error instanceof NotFoundError) {
                 throw new HTTPException(404, { message: error.message });
             }
-            throw error;
+            throw new HTTPException(500, { message: 'An unexpected error occurred' });
         }
     }
 }

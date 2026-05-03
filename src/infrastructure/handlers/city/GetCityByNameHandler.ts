@@ -28,7 +28,7 @@ export class GetCityByNameHandler {
             if (error instanceof NotFoundError) {
                 throw new HTTPException(404, { message: error.message });
             }
-            throw error;
+            throw new HTTPException(500, { message: 'An unexpected error occurred' });
         }
     }
 }

@@ -27,7 +27,7 @@ export class GetMatchByIdHandler {
             if (error instanceof ValidationError) {
                 throw new HTTPException(400, { message: error.message });
             }
-            throw error;
+            throw new HTTPException(500, { message: 'An unexpected error occurred' });
         }
     }
 }
