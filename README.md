@@ -2,12 +2,22 @@ To install dependencies:
 ```sh
 bun install
 ```
-.220.0
 To run:
+
+ouvrir deux terminal sur la racine du projet :
+
+Sur l'un faire  : 
+
 ```sh
+docker compose up
+```
+Sur l'autre faire  :
+```sh
+bun run seed
 bun run dev
 ```
 
-open http://localhost:3000
 
-Aurélien Descy, Renaux Antoine, Ferrero Lucie
+open http://localhost:3000/
+
+Aurélien Descy (AureFreeks), Lucie Ferrero (PrimisLucie), Antoine Renaux (EvaniaLuchiita)
