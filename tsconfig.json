@@ -20,6 +20,8 @@
         "infrastructure/mock/*"
       ],"@database/*": [
         "infrastructure/database/*"
+      ],"@services/*": [
+        "infrastructure/services/*"
       ]
     },
     "strict": true,
