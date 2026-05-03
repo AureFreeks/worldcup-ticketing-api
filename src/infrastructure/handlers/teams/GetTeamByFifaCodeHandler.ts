@@ -3,29 +3,40 @@ import { FifaCode } from "@domain/value-object/FifaCode";
 import { HTTPException } from 'hono/http-exception'
 import { AppDataSource } from "@database/AppDataSource";
 import { Team } from "@domain/entities/Team";
+
+import { TeamService } from "@services/TeamService";
+import { NotFoundError } from "@domain/errors/NotFoundError";
+import { Match } from "@domain/entities/Match";
+import { ValidationError } from "@domain/errors/ValidationError";
+
+const teamRepository = AppDataSource.getRepository(Team);
+const matchRepository = AppDataSource.getRepository(Match);
+const teamService = new TeamService(teamRepository, matchRepository);
+
 export class GetTeamByFifaCodeHandler {
     async handle(c: Context) {
         const codeFifa = c.req.param('fifaCode');
         try {
-            new FifaCode(codeFifa);
-        } catch (error) {
-            throw new HTTPException(400, { message : `Invalid FIFA code: "${codeFifa}"`, cause : `Invalid FIFA code: "${codeFifa}"`});
-        }
-        const teamRepository = AppDataSource.getRepository(Team);
-        const team = await teamRepository.findOne({ where: { code: codeFifa } });
-        if (!team) {
-            throw new HTTPException(404, { message : `Team ${codeFifa} does not exist`, cause : `does not exist`});
-        }
-        return c.json({
-            success: true,
-            message: `Team ${codeFifa}`,
-            data: {
-                name : team.name,
-                code : {
-                    value : team.code
+            const team = await teamService.findTeamByFifaCode(codeFifa);
+            return c.json({
+                success: true,
+                message: `Team ${codeFifa}`,
+                data: {
+                    name : team.name,
+                    code : {
+                        value : team.code
+                    }
                 }
+            }, 200);
+        } catch (error) {
+            if (error instanceof NotFoundError) {
+                throw new HTTPException(404, { message : error.message });
             }
-        }, 200);
+            if (error instanceof ValidationError) {
+                throw new HTTPException(400, { message : error.message });
+            }
+            throw new HTTPException(500, { message: 'An unexpected error occurred' });
+        }
     }
 }
 

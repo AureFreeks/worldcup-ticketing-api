@@ -1,35 +1,33 @@
 import { Context } from "hono";
 import { HTTPException } from 'hono/http-exception'
-//import { match } from "@mock/match";
-import { MatchStage } from "@domain/entities/MatchStage";
 
 import { AppDataSource } from "@infrastructure/database/AppDataSource";
-import { ILike } from "typeorm";
 import { Match } from "@domain/entities/Match";
+
+import { NotFoundError } from "@domain/errors/NotFoundError";
+import { MatchService } from "@services/MatchService";
+import { ValidationError } from "@domain/errors/ValidationError";
+
+const matchRepository = AppDataSource.getRepository(Match);
+const matchService = new MatchService(matchRepository);
 export class GetMatchsByStageHandler {
     async handle(c: Context) {
         const stage = c.req.param('stage');
-        if (!stage || MatchStage[stage as keyof typeof MatchStage] === undefined) {
-            throw new HTTPException(400, { message : `Invalid stage: "${stage}"`});
-        }
-        const stageEnum = MatchStage[stage as keyof typeof MatchStage];
-        const matchRepository = AppDataSource.getRepository(Match);
-        
-        const stageMatchs = await matchRepository.find({
-            where: {
-                stage: stageEnum
-            }, relations:{
-                homeTeam: true,
-                awayTeam: true,
-                stadium: true
+        try {
+            const stageMatch = await matchService.findMatchByStage(stage);
+            return c.json({
+                success: true,
+                message: `Matchs at stage ${stage}`,
+                data: stageMatch
+            }, 200);
+        } catch (error) {
+            if (error instanceof NotFoundError) {
+                throw new HTTPException(404, { message: error.message });
             }
-        });
-        
-        //const stageMatchs = match.filter(m => m.stage === stageEnum);
-        return c.json({
-            success: true,
-            message: `Matchs at stage ${stage}`,
-            data: stageMatchs
-        }, 200);
+            if (error instanceof ValidationError) {
+                throw new HTTPException(400, { message: error.message });
+            }
+            throw new HTTPException(500, { message: 'An unexpected error occurred' });
+        }
     }
 }

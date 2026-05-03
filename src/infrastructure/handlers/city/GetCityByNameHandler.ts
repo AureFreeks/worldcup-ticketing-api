@@ -2,10 +2,6 @@
 import { Context } from "hono";
 import { HTTPException } from 'hono/http-exception'
 
-//import {city} from "@mock/cities"
-
-import { ILike } from "typeorm";
-
 import { AppDataSource } from "@infrastructure/database/AppDataSource";
 import { Repository } from "typeorm";
 import { CityService } from "@services/CityService";
@@ -21,8 +17,6 @@ const cityService = new CityService(cityRepository, matchRepository);
 export class GetCityByNameHandler {
     async handle(c: Context) {
         const name = c.req.param("name");
-
-        //const cityFound = city.find(c => c.name === name);
         try {
             const cityFound = await cityService.findCityByName(name);
             return c.json({

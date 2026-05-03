@@ -32,9 +32,9 @@ async function clear(): Promise<void>{
         const stadiumRepo = AppDataSource.getRepository(Stadium);
         const teamRepo = AppDataSource.getRepository(Team);
         const ticketRepo = AppDataSource.getRepository(Ticket);
-
-        await matchRepo.deleteAll();
+        
         await ticketRepo.deleteAll();
+        await matchRepo.deleteAll();
         await stadiumRepo.deleteAll();
         await cityRepo.deleteAll();
         await contryRepo.deleteAll();

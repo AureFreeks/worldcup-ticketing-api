@@ -1,29 +1,33 @@
 import { Context } from "hono";
-import {match} from '@mock/match'
 import { HTTPException } from 'hono/http-exception'
 
 import { AppDataSource } from "@infrastructure/database/AppDataSource";
-//import { ILike } from "typeorm";
 import { Match } from "@domain/entities/Match";
+import { NotFoundError } from "@domain/errors/NotFoundError";
+import { ValidationError } from "@domain/errors/ValidationError";
+import { MatchService } from "@services/MatchService";
 
+const matchRepository = AppDataSource.getRepository(Match);
+const matchService = new MatchService(matchRepository);
 export class GetMatchByIdHandler {
     async handle(c: Context) {
         const id = c.req.param('id');
-        const matchRepository = AppDataSource.getRepository(Match);
-        const match = await matchRepository.findOne({
-            where: {
-                id: parseInt(id)
-            }
-        });
-        if (!match) {
-            throw new HTTPException(404, { message : `Match ${id} does not exist`});
+        try {
+            const match = await matchService.findMatchById(parseInt(id));
+            return c.json({
+                success: true,
+                message: `Match ${id}`,
+                data: match
+            }, 200);
         }
-        return c.json({
-            success: true,
-            message: `Match ${id}`,
-            data: { 
-                id : parseInt(id)    
+        catch (error) {
+            if (error instanceof NotFoundError) {
+                throw new HTTPException(404, { message: error.message });
             }
-        }, 200);
+            if (error instanceof ValidationError) {
+                throw new HTTPException(400, { message: error.message });
+            }
+            throw error;
+        }
     }
 }

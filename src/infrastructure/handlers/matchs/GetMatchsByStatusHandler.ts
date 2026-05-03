@@ -1,37 +1,34 @@
 import { Context } from "hono";
 import { HTTPException } from 'hono/http-exception'
-//import { match } from "@mock/match";
 import { MatchStatus } from "@domain/entities/MatchStatus";
 
 import { AppDataSource } from "@infrastructure/database/AppDataSource";
-import { ILike } from "typeorm";
 import { Match } from "@domain/entities/Match";
+import { MatchService } from "@services/MatchService";
+import { NotFoundError } from "@domain/errors/NotFoundError";
+import { ValidationError } from "@domain/errors/ValidationError";
 
+const matchRepository = AppDataSource.getRepository(Match);
+const matchService = new MatchService(matchRepository);
 export class GetMatchsByStatusHandler {
     async handle(c: Context) {
         
         const status = c.req.param('status');
-        if (!status || MatchStatus[status as keyof typeof MatchStatus] === undefined) {
-            throw new HTTPException(400, { message : `Invalid status: "${status}"`});
-        }
-        const statusEnum = MatchStatus[status as keyof typeof MatchStatus];
-        const matchRepository = AppDataSource.getRepository(Match);
-        
-        const statusMatchs = await matchRepository.find({
-            where: {
-                status: statusEnum
-            },relations : {
-                homeTeam : true,
-                awayTeam : true,
-                stadium : true
+        try {
+            const statusMatchs = await matchService.findMatchByStatus(status);
+            return c.json({
+                success: true,
+                message: `Matchs with status ${status}`,
+                data: statusMatchs
+            }, 200);
+        } catch (error) {
+            if (error instanceof NotFoundError) {
+                throw new HTTPException(404, { message: error.message });
             }
-        });
-        
-        //const statusMatchs = match.filter(m => m.status === statusEnum);
-        return c.json({
-            success: true,
-            message: `Matchs with status ${status}`,
-            data: statusMatchs
-        }, 200);
+            if (error instanceof ValidationError) {
+                throw new HTTPException(400, { message: error.message });
+            }
+            throw new HTTPException(500, { message: 'An unexpected error occurred' });
+        }
     }
 }

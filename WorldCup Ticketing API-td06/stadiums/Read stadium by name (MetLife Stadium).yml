@@ -5,7 +5,7 @@ info:
 
 http:
   method: GET
-  url: "{{host}}/stadiums/MetLife Stadium"
+  url: "{{host}}/stadiums/BMO Field"
   auth: inherit
 
 runtime:
@@ -16,7 +16,7 @@ runtime:
       operator: isTruthy
     - expression: res.body.message
       operator: eq
-      value: Stadium MetLife Stadium
+      value: Stadium BMO Field
     - expression: res.status
       operator: eq
       value: "200"
@@ -30,7 +30,7 @@ runtime:
       value: GET
     - expression: res.body.data.name
       operator: eq
-      value: MetLife Stadium
+      value: BMO Field
     - expression: res.body.data.city
       operator: isDefined
     - expression: res.body.data.capacity

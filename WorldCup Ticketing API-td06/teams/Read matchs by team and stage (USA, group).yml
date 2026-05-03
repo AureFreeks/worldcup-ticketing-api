@@ -1,14 +1,22 @@
 info:
-  name: Read team by fifaCode (FRA)
+  name: Read matchs by team and stage (USA, group)
   type: http
-  seq: 4
+  seq: 6
 
 http:
   method: GET
-  url: "{{host}}/teams/FRA"
+  url: "{{host}}/teams/USA/matchs/group"
   auth: inherit
 
 runtime:
+  scripts:
+    - type: tests
+      code: |-
+        res.body.data.forEach((match) => {
+          const codes = [match.homeTeam.code.value, match.awayTeam.code.value];
+          expect(codes).to.include("USA");
+          expect(match.stage).to.equal("group");
+        });
   assertions:
     - expression: res.body
       operator: isJson
@@ -16,7 +24,7 @@ runtime:
       operator: isTruthy
     - expression: res.body.message
       operator: eq
-      value: Team FRA
+      value: Matchs for team USA at stage group
     - expression: res.status
       operator: eq
       value: "200"
@@ -24,16 +32,10 @@ runtime:
       operator: eq
       value: application/json
     - expression: res.body.data
-      operator: isJson
+      operator: isArray
     - expression: req.method
       operator: eq
       value: GET
-    - expression: res.body.data.name
-      operator: eq
-      value: France
-    - expression: res.body.data.code.value
-      operator: eq
-      value: FRA
 
 settings:
   encodeUrl: true

@@ -9,6 +9,7 @@ import { CityService } from "@services/CityService";
 import { City } from "@domain/entities/City";
 import { Match } from "@domain/entities/Match";
 import { NotFoundError } from "@domain/errors/NotFoundError";
+import { ValidationError } from "@domain/errors/ValidationError";
 const cityRepository : Repository<City> = AppDataSource.getRepository(City);
 const matchRepository : Repository<Match> = AppDataSource.getRepository(Match);
 const cityService = new CityService(cityRepository, matchRepository);
@@ -28,13 +29,10 @@ export class GetCitiesHandler {
                 if (error instanceof NotFoundError) {
                     throw new HTTPException(404, { message: error.message });
                 }
-                throw error;
+                throw new HTTPException(500, { message: 'An unexpected error occurred' });
             }
         }
         const sort = c.req.query('sort') || "name";
-        if (sort && sort !== "name" && sort !== "-name") {
-            throw new HTTPException(400, { message : 'Invalid sort value:'});
-        }
         try {
                 const city = await cityService.findAllCities(sort);
                 return c.json({
@@ -47,7 +45,10 @@ export class GetCitiesHandler {
             if (error instanceof NotFoundError) {
                 throw new HTTPException(404, { message: error.message });
             }
-            throw error;
+            if (error instanceof ValidationError) {
+                throw new HTTPException(400, { message: error.message });
+            }
+            throw new HTTPException(500, { message: 'An unexpected error occurred' });
         }
     }
 }

@@ -5,10 +5,10 @@ info:
 
 http:
   method: GET
-  url: "{{host}}/matchs?team[code]=FRA"
+  url: "{{host}}/matchs?team[code]=USA"
   params:
     - name: team[code]
-      value: FRA
+      value: USA
       type: query
   auth: inherit
 
@@ -18,7 +18,7 @@ runtime:
       code: |-
         res.body.data.forEach((match) => {
           const codes = [match.homeTeam.code.value, match.awayTeam.code.value];
-          expect(codes).to.include("FRA");
+          expect(codes).to.include("USA");
         });
   assertions:
     - expression: res.body
@@ -27,7 +27,7 @@ runtime:
       operator: isTruthy
     - expression: res.body.message
       operator: contains
-      value: "Matchs filtered by team[code]: FRA"
+      value: "Matchs filtered by team[code]: USA"
     - expression: res.status
       operator: eq
       value: "200"

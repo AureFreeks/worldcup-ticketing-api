@@ -5,7 +5,7 @@ info:
 
 http:
   method: GET
-  url: "{{host}}/matchs/status/scheduled"
+  url: "{{host}}/matchs/status/live"
   auth: inherit
 
 runtime:
@@ -13,7 +13,7 @@ runtime:
     - type: tests
       code: |-
         res.body.data.forEach((match) => {
-          expect(match.status).to.equal("scheduled");
+          expect(match.status).to.equal("live");
         });
   assertions:
     - expression: res.body
@@ -22,7 +22,7 @@ runtime:
       operator: isTruthy
     - expression: res.body.message
       operator: eq
-      value: Matchs with status scheduled
+      value: Matchs with status live
     - expression: res.status
       operator: eq
       value: "200"

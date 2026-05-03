@@ -1,48 +1,40 @@
 import { Context } from "hono";
-//import {stadiums} from "@mock/stadiums";
-//import {match} from "@mock/match";
 import { HTTPException } from 'hono/http-exception'
 
 import { AppDataSource } from "@infrastructure/database/AppDataSource";
-import { ILike } from "typeorm";
 import { Stadium } from "@domain/entities/Stadium";
+
+
+import { StadiumService } from "@services/StadiumService";
+import { NotFoundError } from "@domain/errors/NotFoundError";
+import { ValidationError } from "@domain/errors/ValidationError";
 import { Match } from "@domain/entities/Match";
+
+const stadiumRepository = AppDataSource.getRepository(Stadium);
+const matchRepository = AppDataSource.getRepository(Match);
+const stadiumService = new StadiumService(stadiumRepository, matchRepository);
+
+
 export class GetStadiumMatchsHandler {
     async handle(c: Context) {
         const stadeName = c.req.param('name');
-        const stadiumRepository = AppDataSource.getRepository(Stadium);
-        const stadium = await stadiumRepository.findOne({
-            where: {
-                name: ILike(stadeName)
-            }
-        });
-        //const stadium = stadiums.find(s => s.name.toLowerCase() === cityName.toLowerCase());
-        if (!stadium) {
-            throw new HTTPException(404, { message: `Stadium "${stadeName}" does not exist` });
+        try {
+            await stadiumService.findMatchsByStadiumName(stadeName);
+            const stadiumMatchs = await stadiumService.findMatchsByStadiumName(stadeName);
+            return c.json({
+                success: true,
+                message : `Matchs at ${stadeName} Stadium`,
+                data : stadiumMatchs
+            }, 200);
         }
-        const matchRepository = AppDataSource.getRepository(Match);
-        const stadiumMatchs = await matchRepository.find({
-            where: {
-                stadium: {
-                    name: ILike(stadeName)
-                }            },
-            relations: 
-            {
-                homeTeam: true,
-                awayTeam: true,
-                stadium: {
-                    city: {
-                        country : true
-                    }
-                }
+        catch (error) {
+            if (error instanceof NotFoundError) {
+                throw new HTTPException(404, { message : error.message });
             }
-        });
-        //const stadiumMatchs = match.filter(m =>  m.stadium.name.toLowerCase() === stadium.name.toLowerCase());
-        return c.json({
-            success: true,
-            message : `Matchs at ${stadeName} Stadium`,
-            data : stadiumMatchs
-        }, 200);
+            if (error instanceof ValidationError) {
+                throw new HTTPException(400, { message : error.message });
+            }
+            throw error;
+        }
     }
 }
-

@@ -1,42 +1,34 @@
 import { Context } from "hono";
 import { HTTPException } from 'hono/http-exception'
-//import { countries } from "@mock/Countries";
-//import { city } from "@mock/cities";
+
 
 import { AppDataSource } from "@infrastructure/database/AppDataSource";
-import { ILike } from "typeorm";
+
 import { Country } from "@domain/entities/Country";
+import { Repository } from "typeorm";
 import { City } from "@domain/entities/City";
+import { CountryService } from "@services/CountryService";
+import { NotFoundError } from "@domain/errors/NotFoundError";
+
+const cityRepository : Repository<City> = AppDataSource.getRepository(City);
+const countryRepository : Repository<Country> = AppDataSource.getRepository(Country);
+const countryService = new CountryService(countryRepository, cityRepository);
 export class GetCountryCitiesHandler {
     async handle(c: Context) {
         const countryCode = c.req.param('code');
-        //const country = countries.find(c => c.code === countryCode);
-        const countryRepository = AppDataSource.getRepository(Country);
-        const country = await countryRepository.findOne({
-            where: {
-                code: countryCode
+        try {
+            const country = await countryService.findCountryByCode(countryCode);  
+            const cities = await countryService.findCitiesByCountryCode(countryCode);
+            return c.json({
+                success: true,
+                message: `Cities in ${country.name}`,
+                data: cities
+            }, 200); 
+        } catch (error) {
+            if (error instanceof NotFoundError) {
+                throw new HTTPException(404, { message: error.message });
             }
-        });
-        if (!country) {
-            throw new HTTPException(404, { message: `Country "${countryCode}" does not exist` });
+            throw new HTTPException(500, { message: 'An unexpected error occurred' });
         }
-        const cityRepository = AppDataSource.getRepository(City);
-        const cities = await cityRepository.find({
-            where: {
-                country: {
-                    code: countryCode
-                }
-            }, relations:
-                {
-                    country: true
-                } 
-            
-        });
-        //const cities = city.filter(city => city.country.code === countryCode);
-        return c.json({
-            success: true,
-            message: `Cities in ${country.name}`,
-            data: cities
-        }, 200);
     }
 }

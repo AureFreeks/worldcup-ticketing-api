@@ -4,46 +4,52 @@ import { HTTPException } from 'hono/http-exception'
 
 import { AppDataSource } from "@infrastructure/database/AppDataSource";
 import { ILike } from "typeorm";
+
 import { Country } from "@domain/entities/Country";
+import { Repository } from "typeorm";
+import { City } from "@domain/entities/City";
+import { CountryService } from "@services/CountryService";
+
+import { NotFoundError } from "@domain/errors/NotFoundError";
+import { ValidationError } from "@domain/errors/ValidationError";
+const cityRepository : Repository<City> = AppDataSource.getRepository(City);
+const countryRepository : Repository<Country> = AppDataSource.getRepository(Country);
+const countryService = new CountryService(countryRepository, cityRepository);
+
 export class GetCountriesHandler {
     async handle(c: Context) {
         const sort = c.req.query('sort') || "name";
         const countryname = c.req.query('countries[name]') || "";
-        
-        const countryRepository = AppDataSource.getRepository(Country);
         if (countryname) {
-              //const filteredCountries = countries.filter(t => t.name.toLowerCase().includes(countryname.toLowerCase()));
-            const filteredCountries = await countryRepository.findOne({
-                where: {
-                    name: ILike(`%${countryname}%`)
-                }
-            });
-            if (!filteredCountries) {
-                throw new HTTPException(404, { message: `No countries found with name like ${countryname}` });
+            try {
+                const country = await countryService.findCountryByName(countryname);
+                return c.json({
+                    success: true,
+                    message : `Country with name like ${countryname}`,
+                    data : country
+                }, 200); 
+            } catch (error) {
+                if (error instanceof NotFoundError) {
+                    throw new HTTPException(404, { message: error.message });
+                }                
+                throw error;
             }
+        }
+        try {
+            const countries = await countryService.findAllCountries(sort);
             return c.json({
                 success: true,
-                message: `Countries filtered by name: ${countryname}`,
-                data: filteredCountries
-            });
-        }
-
-        if (sort && sort !== "name" && sort !== "-name") {
-            throw new HTTPException(400, { message : 'Invalid sort value:'});
-        }
-        const countries = await countryRepository.find({
-            order: {
-                name : sort === "name" ? "ASC" : "DESC"
+                message : 'All countries',
+                data : countries
+            }, 200); 
+        } catch (error) {
+            if (error instanceof NotFoundError) {
+                throw new HTTPException(404, { message: error.message });
             }
-    });
-        /*
-        if (sort === "name") {
-            countries.sort((a, b) => a.name.valueOf().localeCompare(b.name.valueOf()));
-        } else if (sort === "-name") {countries}*/
-        return c.json({
-            success: true,
-            message : 'All countries',
-            data : countries
-                }, 200); 
+            if (error instanceof ValidationError) {
+                throw new HTTPException(400, { message: error.message });
+            }
+            throw new HTTPException(500, { message: 'An unexpected error occurred' });
+        }
     }
 }

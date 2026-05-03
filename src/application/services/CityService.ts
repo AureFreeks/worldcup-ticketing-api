@@ -4,6 +4,7 @@ import { Match } from "@domain/entities/Match";
 
 
 import { NotFoundError } from "@domain/errors/NotFoundError";
+import { ValidationError } from "@domain/errors/ValidationError";
 export class CityService {
     private readonly cityRepository: Repository<City>;
     private readonly matchRepository: Repository<Match>;
@@ -23,6 +24,9 @@ export class CityService {
         return city;
     }
     async findAllCities(sort: string) : Promise<City[]> {
+        if (sort && sort !== "name" && sort !== "-name") {
+            throw new ValidationError(`Invalid sort value: ${sort}`);
+        }
         const cities = await this.cityRepository.find({
             order: {
                 name: sort === "name" ? "ASC" : "DESC"
