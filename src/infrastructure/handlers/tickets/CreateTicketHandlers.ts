@@ -15,8 +15,7 @@ import { HTTPException } from 'hono/http-exception'
 import { tickets } from "@mock/ticket";  
 import { match } from "@mock/match";
 import { Ticket } from "@domain/entities/Ticket";
-import { Customer } from "@domain/entities/Customer";
-import { id } from "zod/locales";
+
 export class CreateTicketHandler {
     async handle(c: Context) {
         const body = await c.req.json();
@@ -32,7 +31,7 @@ export class CreateTicketHandler {
             throw new HTTPException(409, { message : `Seat '${parseResult.data.seat}' is already taken for match ${parseResult.data.matchId}`, cause: `Seat ${parseResult.data.seat} for match ${parseResult.data.matchId} is already booked` });
         }
         const id_ticket = tickets.length + 1;
-        tickets.push(new Ticket(id_ticket, match_ticket, parseResult.data.seat, new Customer(parseResult.data.customer.firstname, parseResult.data.customer.lastname, parseResult.data.customer.email)));
+        tickets.push(new Ticket(id_ticket, match_ticket, parseResult.data.seat, parseResult.data.customer.firstname, parseResult.data.customer.lastname, parseResult.data.customer.email));
         //Structure TD 4-2
         /*
         return c.json({

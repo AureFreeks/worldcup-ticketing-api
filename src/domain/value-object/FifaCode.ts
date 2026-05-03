@@ -5,4 +5,8 @@ export class FifaCode {
         if (!/^[A-Z]{3}$/.test(value)) { throw new Error("Code FIFA invalide : doit contenir 3 lettres majuscules"); }
         this.value=value;
     }
+
+    getValue(): string {
+        return this.value;
+    }
 }

@@ -1,12 +1,19 @@
 import { FifaCode } from "@domain/value-object/FifaCode";
 
+import { Column, Entity, PrimaryColumn} from "typeorm"
+@Entity()
 export class Team {
-    
-    name:String;
-    code:FifaCode;
+    @PrimaryColumn()
+    readonly name:String;
+    @Column()
+    readonly code:string;
 
-    constructor(name:String,code:FifaCode) {
-        this.code=code;
-        this.name=name;
+    constructor(name?:String,code?:FifaCode) {
+        if (code) {
+            this.code=code.getValue();
+        }
+        if (name) {
+            this.name=name;
+        }
     }
 }

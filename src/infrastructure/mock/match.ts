@@ -12,6 +12,10 @@ export const m1 = new Match(
   usa_equipe,
   0,      // homeScore
   0,      // awayScore
+  0,      // homeScoreExtraTime
+  0,      // awayScoreExtraTime
+  null,   // homeScoreShootOut
+  null,   // awayScoreShootOut
   BMO,
   MatchStatus.live,
   MatchStage.group,
@@ -24,6 +28,10 @@ export const m2 = new Match(
   japon_equipe,
   0,
   0,
+  0,
+  0,
+  null,
+  null,
   SoFi,
   MatchStatus.live,
   MatchStage.group,
@@ -36,6 +44,10 @@ export const m3 = new Match(
   ghana_equipe,
   0,
   0,
+  0,
+  0,
+  null,
+  null,
   Estadio,
   MatchStatus.live,
   MatchStage.group,

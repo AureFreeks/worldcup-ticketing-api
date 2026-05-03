@@ -2,7 +2,6 @@ import { DataSource } from "typeorm"
 
 import { City } from "@domain/entities/City"
 import { Country } from "@domain/entities/Country"
-import { Customer } from "@domain/entities/Customer"
 
 import { Match } from "@domain/entities/Match"
 
@@ -23,7 +22,7 @@ export const AppDataSource = new DataSource({
 
     synchronize: true,
     logging: false,
-    entities: [City, Country, Customer, Match, Stadium, Team, Ticket],
+    entities: [City, Country, Match, Stadium, Team, Ticket],
 })
 
 try {
